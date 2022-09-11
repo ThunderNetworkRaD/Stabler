@@ -1,0 +1,32 @@
+{
+  "name": "stabler",
+  "version": "0.0.1",
+  "description": "An App/Plugin Loader",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIUSdevelopment/Stabler.git"
+  },
+  "keywords": [
+    "Stabler",
+    "App",
+    "JS",
+    "Loader",
+    "Plugin"
+  ],
+  "author": "FIUS Development | Killer Boss Original",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "https://github.com/FIUSdevelopment/Stabler/issues"
+  },
+  "homepage": "https://github.com/FIUSdevelopment/Stabler#readme",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "child_process": "^1.0.2",
+    "fs": "^0.0.1-security"
+  }
+}

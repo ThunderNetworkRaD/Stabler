@@ -1,2 +1,3 @@
 # Stabler
-JS App-Plugin Loader
+
+JS App/Plugin Loader
