@@ -1,7 +1,5 @@
 const fs = require('fs');
 const child_process = require("child_process");
-const https = require("https");
-
 
 var arrayToInstall = [];
 var arrayOfAll = ['chalk', 'readline', 'figlet'];
@@ -9,6 +7,8 @@ var arrayOfAll = ['chalk', 'readline', 'figlet'];
 if (!fs.existsSync('./node_modules/chalk/package.json')) arrayToInstall.push('chalk');
 if (!fs.existsSync('./node_modules/readline/package.json')) arrayToInstall.push('readline');
 if (!fs.existsSync('./node_modules/figlet/package.json')) arrayToInstall.push('figlet');
+if (!fs.existsSync('./node_modules/adm-zip/package.json')) arrayToInstall.push('adm-zip');
+
 
 console.log(` ___           _        _ _           \n\
 |_ _|_ __  ___| |_ __ _| | | ___ _ __ \n\
@@ -32,27 +32,9 @@ if (arrayToInstall.length != 0){
         if (stderr!= "") console.error(`Error: ${stderr}`);
     });
 } else {
-    if (process.argv[2]){
-        const url = process.argv[2];
-        const name = process.argv[3];
-  
-        https.get(url,(res) => {
-            const path = `./plugins/${name}.stb`; 
-            const filePath = fs.createWriteStream(path);
-            res.pipe(filePath);
-            filePath.on('finish',() => {
-                filePath.close();
-                console.log('Download Completed');
-                require('./downloader.js')(path)
-            })
-        })
-    } else {
-        console.log('\n\n\nNothing to install');
-    }
+    console.log('\n\n\nNothing to install');
 };
 /*
-process.argv[2]
-
 ()
 []
 {}
