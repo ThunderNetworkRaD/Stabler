@@ -28,7 +28,6 @@ function catchError(message, err, origin, reason) {
       console.log(chalk.gray('—————————————————————————————————'));
       console.log(err, origin, reason);
   }
-  console.log(process.argv)
   if (process.argv.includes('++nore') || process.argv.includes('++catchrejection')) {
     process.on('unhandledRejection', (err, origin) => {
         catchError('Unhandled Rejection/Catch', err, origin);
