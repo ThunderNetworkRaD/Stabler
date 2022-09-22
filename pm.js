@@ -181,9 +181,22 @@ function exec (process) {
                     console.log('Scanning')
                     mapped.map((pl) => {
                         if (require(pl).name == process.argv[3]) {
+                            console.log('Removing dependencies')
+                            var toRemove = Object.getOwnPropertyNames(require(pl.replace('plugin.json', 'package.json')).dependencies)
+                            console.log('To remove: '+ toRemove)
+                            toRemove.forEach((pacchetto) => {
+                                console.log('Removing npm package '+pacchetto)
+                                require('child_process').exec(`npm remove ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
+                                        console.error(`Error: ${error}`);
+                                        return;
+                                    }
+                                    console.log(`${stdout}`);
+                                    if (stderr!= "") console.error(`Error: ${stderr}`);
+                                });
+                            })
                             console.log('Deleting')
                             require('fs')
-                            .rmdir(`./plugins/${require(pl).folderName}`, { recursive: true }, () => {
+                            .rm(`./plugins/${require(pl).folderName}`, { recursive: true }, () => {
                                 console.log('Done')
                             })
                         }
