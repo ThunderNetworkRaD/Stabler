@@ -82,7 +82,7 @@ function exec (process) {
                 .then((mapped) => {
                     console.log('Mapped')
                     let done;
-                    mapped.map((dl) => {
+                    mapped.forEach((dl) => {
                         var dl1 = dl.replace(`${process.cwd()}/bin/`, '')
                         if (done) {
                             return;
