@@ -28,16 +28,22 @@ function catchError(message, err, origin, reason) {
       console.log(chalk.gray('—————————————————————————————————'));
       console.log(err, origin, reason);
   }
-  
-  process.on('unhandledRejection', (err, origin) => {
-      catchError('Unhandled Rejection/Catch', err, origin);
-  });
-  process.on('uncaughtException', (err, origin) => {
-      catchError('Uncaught Exception/Catch', err, origin);
-  });
-  process.on('multipleResolves', (type, promise, reason) => {
-      catchError('Multiple Resolves', type, promise, reason);
-  });
+  console.log(process.argv)
+  if (process.argv.includes('++nore') || process.argv.includes('++catchrejection')) {
+    process.on('unhandledRejection', (err, origin) => {
+        catchError('Unhandled Rejection/Catch', err, origin);
+    });
+  }
+  if (process.argv.includes('++noex') || process.argv.includes('++catchexception')) {
+    process.on('uncaughtException', (err, origin) => {
+        catchError('Uncaught Exception/Catch', err, origin);
+    });
+  }
+  if (process.argv.includes('++nomu') || process.argv.includes('++cathmultipleresolves')) {
+    process.on('multipleResolves', (type, promise, reason) => {
+        catchError('Multiple Resolves', type, promise, reason);
+    });
+  }
 
 fs.readFile('./package.json', async (err, data) => {
     figlet('FIUS Development', function(err, fd) {
