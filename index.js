@@ -32,6 +32,7 @@ fs.readFile('./package.json', async (err, data) => {
                 console.log('Mapped')
                 console.log('Starting')
                 mapped.forEach((dl) => {
+                    console.log('Starting '+dl)
                     require(dl)
                 })
             })

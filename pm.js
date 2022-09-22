@@ -54,7 +54,19 @@ function exec (process) {
                                                                 obj.folderName = pl1;
                                                                 json = JSON.stringify(obj);
                                                                 require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
-                                                                    console.log('Done')
+                                                                    console.log('Installing dependencies')
+                                                                    var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
+                                                                    console.log('To install: '+ toInstall)
+                                                                    toInstall.forEach((pacchetto) => {
+                                                                        console.log('Installing npm package '+pacchetto)
+                                                                        require('child_process').exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
+                                                                                console.error(`Error: ${error}`);
+                                                                                return;
+                                                                            }
+                                                                            console.log(`${stdout}`);
+                                                                            if (stderr!= "") console.error(`Error: ${stderr}`);
+                                                                        });
+                                                                    })
                                                                 });
                                                             }
                                                         });
@@ -139,7 +151,19 @@ function exec (process) {
                                     obj.folderName = pl1;
                                     json = JSON.stringify(obj);
                                     require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
-                                        console.log('Done')
+                                        console.log('Installing dependencies')
+                                        var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
+                                        console.log('To install: '+ toInstall)
+                                        toInstall.forEach((pacchetto) => {
+                                            console.log('Installing npm package '+pacchetto)
+                                            require('child_process').exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
+                                                    console.error(`Error: ${error}`);
+                                                    return;
+                                                }
+                                                console.log(`${stdout}`);
+                                                if (stderr!= "") console.error(`Error: ${stderr}`);
+                                            });
+                                        })
                                     });
                                 }
                             });
