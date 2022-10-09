@@ -55,13 +55,27 @@ fs.readFile('./package.json', async (err, data) => {
             );
             console.log('Mapping')
             require('./utils/files.js')
-            .map('/plugins/*/index.js')
+            .map('/plugins/*/plugin.json')
             .then((mapped) => {
                 console.log('Mapped')
-                console.log('Starting')
                 mapped.forEach((dl) => {
-                    console.log('Starting '+dl)
-                    require(dl)
+                    var dl = require(dl)
+                    console.log('Starting "' + String(dl.name) + '"')
+                    if (String(dl.start).startsWith('.')) {
+                        console.log('Loading ' + String(dl.start))
+                        require(`./plugins/${String(dl.folderName)}/${String(dl.start)}`)
+                    } else {
+                        console.log('Executing "' + dl.start + '"')
+                        require('child_process')
+                        .exec(String(dl.start), (error, stdout, stderr) => {                                                                            
+                            if (error) {
+                                console.error(`Error: ${error}`);
+                                return;
+                            }
+                            console.log(`${stdout}`);
+                            if (stderr != "") console.error(`Error: ${stderr}`);
+                        });
+                    }
                 })
             })
         });

@@ -1,0 +1,8 @@
+{
+    "name":"Template-1",
+    "version":"0.0.1",
+    "folderName":"template",
+    "install":"echo 'cambiami per potermi far installare'",
+    "uninstall":"echo 'cambiami per potermi far disinstallare'",
+    "start":"echo 'cambiami per farmi avviare'"
+}

@@ -6,167 +6,70 @@ function exec (process) {
         console.log(fig)
         console.log(`Running on Node ${process.version} on ${process.platform} ${process.arch}\nMemory: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB RSS ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`)
         switch (process.argv[2]){
-            case 'dai':
-                console.log('Mapping')
-                require('./utils/files.js')
-                .map('/bin/*.zip')
-                .then((mapped) => {
-                    console.log('Mapped')
-                    let done;
-                    mapped.forEach((dl) => {
-                        var dl1 = dl.replace(`${process.cwd()}/bin/`, '')
-                        if (done) {
-                            return;
-                        }
-                        if (!a) {
-                            var a = 1;
-                        }
-                        if (dl1 == a+'.zip') {
-                            var a = a + 1;
-                        }
-                        if (dl1 != a+'.zip') {
-                            done = true;
-                            require('./utils/net.js')
-                            .download(process.argv[4], `./bin/${a}.zip`)
-                            .then((res) => {
-                                if (res == 'ok') {
-                                    console.log('Plugin Downloaded')
-                                    console.log('Unzipping')
-                                    require('./utils/zip.js')
-                                    .unzip(`./bin/${a}.zip`, `./plugins/`)
-                                    .then((res) => {
-                                        if (res == 'ok') {
-                                            console.log('Plugin Unzipped')
-                                            console.log('Mapping')
-                                            require('./utils/files.js')
-                                            .map('/plugins/*/plugin.json')
-                                            .then((mapped1) => {
-                                                console.log('Mapped')
-                                                mapped1.forEach((pl) => {
-                                                    if (require(pl).name == process.argv[3]) {
-                                                        var pl1 = pl.replace(`${process.cwd()}/plugins/`, '').replace('/plugin.json', '')
-                                                        require('fs').readFile(`./plugins/${pl1}/plugin.json`, 'utf8', function readFileCallback(err, data){
-                                                            if (err){
-                                                                console.log(err);
-                                                            } else {
-                                                                console.log('Installing')
-                                                                obj = JSON.parse(data);
-                                                                obj.folderName = pl1;
-                                                                json = JSON.stringify(obj);
-                                                                require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
-                                                                    console.log('Installing dependencies')
-                                                                    var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
-                                                                    console.log('To install: '+ toInstall)
-                                                                    toInstall.forEach((pacchetto) => {
-                                                                        console.log('Installing npm package '+pacchetto)
-                                                                        require('child_process').exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
-                                                                                console.error(`Error: ${error}`);
-                                                                                return;
-                                                                            }
-                                                                            console.log(`${stdout}`);
-                                                                            if (stderr!= "") console.error(`Error: ${stderr}`);
-                                                                        });
-                                                                    })
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                })
 
-                                            })
-                                        } else {
-                                            console.log(`Canceled`)
-                                        }
-                                    })
-                                } else {
-                                    console.log(`Canceled`)
-                                }
-                            })
-                        }
-                    })
-                })
-                break;
-
-            case 'download':
-                console.log('Mapping')
-                require('./utils/files.js')
-                .map('/bin/*.zip')
-                .then((mapped) => {
-                    console.log('Mapped')
-                    let done;
-                    mapped.forEach((dl) => {
-                        var dl1 = dl.replace(`${process.cwd()}/bin/`, '')
-                        if (done) {
-                            return;
-                        }
-                        if (!a) {
-                            var a = 1;
-                        }
-                        if (dl1 == a+'.zip') {
-                            var a = a + 1;
-                        }
-                        if (dl1 != a+'.zip') {
-                            done = true;
-                            require('./utils/net.js')
-                            .download(process.argv[3], `./bin/${a}.zip`)
-                            .then((res) => {
-                                if (res == 'ok') {
-                                    console.log('Plugin Downloaded')
-                                    console.log('Unzipping')
-                                    require('./utils/zip.js')
-                                    .unzip(`./bin/${a}.zip`, `./plugins/`)
-                                    .then((res) => {
-                                        if (res == 'ok') {
-                                            console.log('Plugin Unzipped')
-                                            console.log('Done')
-                                        } else {
-                                            console.log(`Canceled`)
-                                        }
-                                    })
-                                } else {
-                                    console.log(`Canceled`)
-                                }
-                            })
-                        }
-                    })
-                })
-
-                break;
-            
             case 'install':
-                console.log('Mapping')
-                require('./utils/files.js')
-                .map('/plugins/*/plugin.json')
-                .then((mapped) => {
-                    console.log('Mapped')
-                    mapped.forEach((pl) => {
-                        if (require(pl).name == process.argv[3]) {
-                            var pl1 = pl.replace(`${process.cwd()}/plugins/`, '').replace('/plugin.json', '')
-                            require('fs').readFile(`./plugins/${pl1}/plugin.json`, 'utf8', function readFileCallback(err, data){
-                                if (err){
-                                    console.log(err);
-                                } else {
-                                    console.log('Installing')
-                                    obj = JSON.parse(data);
-                                    obj.folderName = pl1;
-                                    json = JSON.stringify(obj);
-                                    require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
-                                        console.log('Installing dependencies')
-                                        var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
-                                        console.log('To install: '+ toInstall)
-                                        toInstall.forEach((pacchetto) => {
-                                            console.log('Installing npm package '+pacchetto)
-                                            require('child_process').exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
-                                                    console.error(`Error: ${error}`);
-                                                    return;
-                                                }
-                                                console.log(`${stdout}`);
-                                                if (stderr!= "") console.error(`Error: ${stderr}`);
-                                            });
-                                        })
-                                    });
-                                }
-                            });
+                console.log('Getting plugin name')
+                require('./utils/zip.js')
+                .read(process.argv[3], 'plugin.json')
+                .then((plf) => {
+                    var plf = JSON.parse(plf)
+                    console.log('Unzipping')
+                    require('./utils/zip.js')
+                    .unzip(process.argv[3], `./plugins/`)
+                    .then((res) => {
+                        if (res == 'ok') {
+                            console.log('Plugin Unzipped')
+                            console.log(`Searching for ${plf.name}(${plf.version})`)
+                            console.log('--> Mapping')
+                            require('./utils/files.js')
+                            .map('/plugins/*/plugin.json')
+                            .then((mapped) => {
+                                console.log('--> Mapped')
+                                mapped.forEach((pl) => {
+                                    if (require(pl).name == plf.name) {
+                                        var pl1 = pl.replace(`${process.cwd()}/plugins/`, '').replace('/plugin.json', '')
+                                        require('fs').readFile(`./plugins/${pl1}/plugin.json`, 'utf8', (err, data) => {
+                                            if (err){
+                                                console.log('Error');
+                                            } else {
+                                                console.log('Installing')
+                                                obj = JSON.parse(data);
+                                                obj.folderName = pl1;
+                                                json = JSON.stringify(obj);
+                                                require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
+                                                    console.log('Installing dependencies')
+                                                    var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
+                                                    console.log('To install: '+ toInstall)
+                                                    toInstall.forEach((pacchetto) => {
+                                                        console.log('Installing npm package '+pacchetto)
+                                                        require('child_process')
+                                                        .exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {
+                                                            if (error) {
+                                                                console.error(`Error: ${error}`);
+                                                                return;
+                                                            }
+                                                            console.log(`${stdout}`);
+                                                                if (stderr!= "") console.error(`Error: ${stderr}`);
+                                                        });
+                                                    })
+                                                    console.log('Installing')
+                                                    require('child_process')
+                                                    .exec(require(`./plugins/${pl1}/plugin.json`).install, (error, stdout, stderr) => {                                                                            
+                                                        if (error) {
+                                                            console.error(`Error: ${error}`);
+                                                            return;
+                                                        }
+                                                        console.log(`${stdout}`);
+                                                        if (stderr != "") console.error(`Error: ${stderr}`);
+                                                    });
+                                                });
+                                            }
+                                        });
+                                    }
+                                })
+                            })
+                        } else {
+                            console.log('Error')
                         }
                     })
                 })
@@ -186,7 +89,8 @@ function exec (process) {
                             console.log('To remove: '+ toRemove)
                             toRemove.forEach((pacchetto) => {
                                 console.log('Removing npm package '+pacchetto)
-                                require('child_process').exec(`npm remove ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
+                                require('child_process')
+                                .exec(`npm remove ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
                                         console.error(`Error: ${error}`);
                                         return;
                                     }
@@ -194,10 +98,20 @@ function exec (process) {
                                     if (stderr!= "") console.error(`Error: ${stderr}`);
                                 });
                             })
+                            console.log('Uninstalling')
+                            require('child_process')
+                            .exec(String(require(pl).uninstall), (error, stdout, stderr) => {                                                                            
+                                if (error) {
+                                    console.error(`Error: ${error}`);
+                                    return;
+                                }
+                                console.log(`${stdout}`);
+                                if (stderr != "") console.error(`Error: ${stderr}`);
+                            });
                             console.log('Deleting')
                             require('fs')
                             .rm(`./plugins/${require(pl).folderName}`, { recursive: true }, () => {
-                                console.log('Done')
+                                console.log('The app will close automatically on finish - DO NOT CLOSE WITH ^C')
                             })
                         }
                     })
@@ -220,9 +134,7 @@ function exec (process) {
             
             default: 
                 console.log('Help')
-                console.log('pm dai <name> <url>')
-                console.log('pm download <url>')
-                console.log('pm install <name>')
+                console.log('pm install <name> (Require a .zip file)')
                 console.log('pm uninstall <name>')
                 console.log('pm list')
                 break;
