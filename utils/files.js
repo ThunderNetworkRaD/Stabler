@@ -29,6 +29,27 @@ function mkdir (file) {
         }
     })
 }
+function rmdir (file) {
+    return new Promise((resolve, reject) => {
+        try {
+            var fs = require('fs');
+            var dir = file;
+            if (fs.existsSync(dir)){
+                fs.rmdir(dir, {
+                    recursive: true,
+                  }, (error) => {
+                    if (error) {
+                        resolve(error)
+                    }
+                });
+            }
+            resolve('OK');
+        } catch (e) {
+            console.log(e);
+            resolve('error');
+        }
+    })
+}
 
 module.exports = {
     map,
