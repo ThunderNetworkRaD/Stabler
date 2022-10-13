@@ -13,8 +13,26 @@ function map (folder) {
         }
     })
 }
+function mkdir (file) {
+    return new Promise((resolve, reject) => {
+        try {
+            var fs = require('fs');
+            var dir = file;
+            
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            resolve('OK');
+        } catch (e) {
+            console.log(e);
+            resolve('error');
+        }
+    })
+}
+
 module.exports = {
-    map
+    map,
+    mkdir
 }
 /*
 ()
