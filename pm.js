@@ -106,13 +106,13 @@ function exec (process) {
                                     return;
                                 }
                                 console.log(`${stdout}`);
+                                console.log('Deleting')
+                                require('fs')
+                                .rm(`./plugins/${require(pl).folderName}`, { recursive: true }, () => {
+                                    console.log('The app will close automatically on finish - DO NOT CLOSE WITH ^C')
+                                })
                                 if (stderr != "") console.error(`Error: ${stderr}`);
                             });
-                            console.log('Deleting')
-                            require('fs')
-                            .rm(`./plugins/${require(pl).folderName}`, { recursive: true }, () => {
-                                console.log('The app will close automatically on finish - DO NOT CLOSE WITH ^C')
-                            })
                         }
                     })
                 })
