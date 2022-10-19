@@ -10,6 +10,7 @@ if (!fs.existsSync('./node_modules/figlet/package.json')) arrayToInstall.push('f
 if (!fs.existsSync('./node_modules/adm-zip/package.json')) arrayToInstall.push('adm-zip');
 if (!fs.existsSync('./node_modules/util/package.json')) arrayToInstall.push('util');
 if (!fs.existsSync('./node_modules/glob/package.json')) arrayToInstall.push('glob');
+if (!fs.existsSync('./node_modules/@fiusdevelopment/files/package.json')) arrayToInstall.push('@fiusdevelopment/files);
 
 
 console.log(` ___           _        _ _           \n\

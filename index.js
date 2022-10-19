@@ -54,7 +54,7 @@ fs.readFile('./package.json', async (err, data) => {
                 chalk.gray(`\nRunning on Node ${process.version} on ${process.platform} ${process.arch}\nStabler Version: ${JSON.parse(data).version}\nMemory: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB RSS\n${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`),
             );
             console.log('Mapping')
-            require('./utils/files.js')
+            require('@fiusdevelopment/files')
             .map('/plugins/*/plugin.json')
             .then((mapped) => {
                 console.log('Mapped')

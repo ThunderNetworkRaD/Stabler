@@ -21,7 +21,7 @@ function exec (process) {
                             console.log('Plugin Unzipped')
                             console.log(`Searching for ${plf.name}(${plf.version})`)
                             console.log('--> Mapping')
-                            require('./utils/files.js')
+                            require('@fiusdevelopment/files')
                             .map('/plugins/*/plugin.json')
                             .then((mapped) => {
                                 console.log('--> Mapped')
@@ -77,7 +77,7 @@ function exec (process) {
 
             case 'uninstall':
                 console.log('Mapping')
-                require('./utils/files.js')
+                require('@fiusdevelopment/files')
                 .map('/plugins/*/plugin.json')
                 .then((mapped) => {
                     console.log('Mapped')
@@ -121,7 +121,7 @@ function exec (process) {
 
             case 'list':
                 console.log('Mapping')
-                require('./utils/files.js')
+                require('@fiusdevelopment/files')
                 .map('/plugins/*/plugin.json')
                 .then((mapped) => {
                     console.log('Mapped')
