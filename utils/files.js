@@ -53,7 +53,8 @@ function rmdir (file) {
 
 module.exports = {
     map,
-    mkdir
+    mkdir,
+    rmdir
 }
 /*
 ()
