@@ -12,7 +12,8 @@
     "puninstall": "node pm.js uninstall",
     "pdownload": "node pm.js download",
     "startdebug": "node index.js ++nore ++noex ++nomu",
-    "debugstart": "node index.js ++nore ++noex ++nomu"
+    "debugstart": "node index.js ++nore ++noex ++nomu",
+    "upload": "git add --all && git commit -m update && git push"
   },
   "repository": {
     "type": "git",
