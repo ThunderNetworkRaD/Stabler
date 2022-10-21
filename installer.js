@@ -9,6 +9,7 @@ if (!fs.existsSync('./node_modules/readline/package.json')) arrayToInstall.push(
 if (!fs.existsSync('./node_modules/figlet/package.json')) arrayToInstall.push('figlet');
 if (!fs.existsSync('./node_modules/adm-zip/package.json')) arrayToInstall.push('adm-zip');
 if (!fs.existsSync('./node_modules/@fiusdevelopment/files/package.json')) arrayToInstall.push('@fiusdevelopment/files');
+if (!fs.existsSync('./node_modules/@fiusdevelopment/net/package.json')) arrayToInstall.push('@fiusdevelopment/net');
 
 
 console.log(` ___           _        _ _           \n\
