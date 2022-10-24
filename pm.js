@@ -38,7 +38,7 @@ function exec (process) {
                                                 json = JSON.stringify(obj);
                                                 require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
                                                     console.log('Installing dependencies')
-                                                    if (require(`./plugins/${pl1}/package.json`)) {
+                                                    if (require('fs').existsSync(`./plugins/${pl1}/package.json`)) {
                                                         var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
                                                         console.log('To install: '+ toInstall)
                                                         toInstall.forEach((pacchetto) => {
@@ -88,7 +88,7 @@ function exec (process) {
                     mapped.map((pl) => {
                         if (require(pl).name == process.argv[3]) {
                             console.log('Removing dependencies')
-                            if (require(pl.replace('plugin.json', 'package.json'))) {
+                            if (require('fs').existsSync(pl.replace('plugin.json', 'package.json'))) {
                                 var toRemove = Object.getOwnPropertyNames(require(pl.replace('plugin.json', 'package.json')).dependencies)
                                 console.log('To remove: '+ toRemove)
                                 toRemove.forEach((pacchetto) => {
