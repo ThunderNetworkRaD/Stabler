@@ -38,20 +38,23 @@ function exec (process) {
                                                 json = JSON.stringify(obj);
                                                 require('fs').writeFile(`./plugins/${pl1}/plugin.json`, json, 'utf8', () => {
                                                     console.log('Installing dependencies')
-                                                    var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
-                                                    console.log('To install: '+ toInstall)
-                                                    toInstall.forEach((pacchetto) => {
-                                                        console.log('Installing npm package '+pacchetto)
-                                                        require('child_process')
-                                                        .exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {
-                                                            if (error) {
-                                                                console.error(`Error: ${error}`);
-                                                                return;
-                                                            }
-                                                            console.log(`${stdout}`);
-                                                                if (stderr!= "") console.error(`Error: ${stderr}`);
-                                                        });
-                                                    })
+                                                    if (require(`./plugins/${pl1}/package.json`)) {
+                                                        var toInstall = Object.getOwnPropertyNames(require(`./plugins/${pl1}/package.json`).dependencies)
+                                                        console.log('To install: '+ toInstall)
+                                                        toInstall.forEach((pacchetto) => {
+                                                            console.log('Installing npm package '+pacchetto)
+                                                            require('child_process')
+                                                            .exec(`npm i ${pacchetto}`, (error, stdout, stderr) => {
+                                                                if (error) {
+                                                                    console.error(`Error: ${error}`);
+                                                                    return;
+                                                                }
+                                                                console.log(`${stdout}`);
+                                                                    if (stderr!= "") console.error(`Error: ${stderr}`);
+                                                            });
+                                                        })
+                                                    } else console.log('No dependencies')
+                                                    
                                                     console.log('Installing')
                                                     require('child_process')
                                                     .exec(require(`./plugins/${pl1}/plugin.json`).install, (error, stdout, stderr) => {                                                                            
@@ -85,19 +88,21 @@ function exec (process) {
                     mapped.map((pl) => {
                         if (require(pl).name == process.argv[3]) {
                             console.log('Removing dependencies')
-                            var toRemove = Object.getOwnPropertyNames(require(pl.replace('plugin.json', 'package.json')).dependencies)
-                            console.log('To remove: '+ toRemove)
-                            toRemove.forEach((pacchetto) => {
-                                console.log('Removing npm package '+pacchetto)
-                                require('child_process')
-                                .exec(`npm remove ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
-                                        console.error(`Error: ${error}`);
-                                        return;
-                                    }
-                                    console.log(`${stdout}`);
-                                    if (stderr!= "") console.error(`Error: ${stderr}`);
-                                });
-                            })
+                            if (require(pl.replace('plugin.json', 'package.json'))) {
+                                var toRemove = Object.getOwnPropertyNames(require(pl.replace('plugin.json', 'package.json')).dependencies)
+                                console.log('To remove: '+ toRemove)
+                                toRemove.forEach((pacchetto) => {
+                                    console.log('Removing npm package '+pacchetto)
+                                    require('child_process')
+                                    .exec(`npm remove ${pacchetto}`, (error, stdout, stderr) => {                                                                            if (error) {
+                                            console.error(`Error: ${error}`);
+                                            return;
+                                        }
+                                        console.log(`${stdout}`);
+                                        if (stderr!= "") console.error(`Error: ${stderr}`);
+                                    });
+                                })    
+                            } else console.log('No dependencies')
                             console.log('Uninstalling')
                             require('child_process')
                             .exec(String(require(pl).uninstall), (error, stdout, stderr) => {                                                                            

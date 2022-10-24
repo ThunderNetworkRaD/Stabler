@@ -1,0 +1,7 @@
+{
+    "name":"anticrash",
+    "version":"1.0.0",
+    "install":"echo 'Installing'",
+    "uninstall":"'Uninstalling'",
+    "start":"./index.js"
+}
