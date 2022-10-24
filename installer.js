@@ -2,15 +2,10 @@ const fs = require('fs');
 const child_process = require("child_process");
 
 var arrayToInstall = [];
-var arrayOfAll = ['chalk', 'readline', 'figlet', 'adm-zip', 'util', 'glob'];
 
-if (!fs.existsSync('./node_modules/chalk/package.json')) arrayToInstall.push('chalk');
-if (!fs.existsSync('./node_modules/readline/package.json')) arrayToInstall.push('readline');
-if (!fs.existsSync('./node_modules/figlet/package.json')) arrayToInstall.push('figlet');
-if (!fs.existsSync('./node_modules/adm-zip/package.json')) arrayToInstall.push('adm-zip');
-if (!fs.existsSync('./node_modules/@fiusdevelopment/files/package.json')) arrayToInstall.push('@fiusdevelopment/files');
-if (!fs.existsSync('./node_modules/@fiusdevelopment/net/package.json')) arrayToInstall.push('@fiusdevelopment/net');
-
+Object.getOwnPropertyNames(require('./package.json').dependencies).forEach((dip) => {
+    if (!fs.existsSync(`./node_modules/${dip}/package.json`)) arrayToInstall.push(dip);
+})
 
 console.log(` ___           _        _ _           \n\
 |_ _|_ __  ___| |_ __ _| | | ___ _ __ \n\
