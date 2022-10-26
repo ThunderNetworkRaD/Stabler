@@ -1,19 +1,11 @@
 {
   "name": "stabler",
-  "version": "2.4.0",
+  "version": "3.0.0",
   "description": "An App/Plugin Loader",
   "main": "index.js",
   "scripts": {
     "test": "npm start",
-    "pm": "node pm.js",
-    "start": "node index.js",
-    "install": "node installer.js",
-    "pinstall": "node pm.js install",
-    "puninstall": "node pm.js uninstall",
-    "pdownload": "node pm.js download",
-    "startdebug": "node index.js ++nore ++noex ++nomu",
-    "debugstart": "node index.js ++nore ++noex ++nomu",
-    "upload": "git add --all && git commit -m update && git push"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
