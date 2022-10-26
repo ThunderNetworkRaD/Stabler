@@ -2,7 +2,6 @@ import {  } from 'node:fs';
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import * as readline from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
-import chalk from 'chalk';
 var name, rl;
 
 export function getTime () {
