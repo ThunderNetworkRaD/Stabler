@@ -23,6 +23,7 @@ async function checkModules () {
             var toInstall =  '';
             modules.forEach((module) => {
                 var version = eval(`require('./package.json').dependencies.${module}`)
+                version = version.replace('^', '')
                 if (fs.existsSync(`./node_modules/${module}/package.json`)) {
                     if (version != require(`./node_modules/${module}/package.json`).version) {
                         toInstall += `${module}@${version} `;
@@ -31,6 +32,10 @@ async function checkModules () {
                     toInstall += `${module}@${version} `;
                 }
             })
+            if (toInstall.length == 0) {
+                console.log('All packages are already up to date');
+                return resolve('OK');
+            }
             console.log('Updating npm modules (' + toInstall + ')')
             exec(`npm i ${toInstall}`, (error, stdout, stderr) => {                                                                            
                 if (error) {
